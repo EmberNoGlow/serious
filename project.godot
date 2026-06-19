@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
-config/name="MyGame"
+config/name="SERIOUS GAME"
 run/main_scene="res://scenes/boot/godot/godot_bootsplash_scene.tscn"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.6")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -30,7 +34,7 @@ window/stretch/aspect="keep_height"
 
 [gui]
 
-theme/custom="res://ui/theme.tres"
+theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 
@@ -93,4 +97,6 @@ locale/translations=PackedStringArray("res://i18n/translation.de.translation", "
 
 [rendering]
 
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.211765, 0.239216, 0.321569, 1)
