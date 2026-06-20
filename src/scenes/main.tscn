@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://cywvqad6xj8ib"]
 
+[ext_resource type="Script" uid="uid://dkllcn6r0a7df" path="res://src/scripts/main.gd" id="1_5dlwx"]
 [ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_kkvs4"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
+[ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
+[ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
 
 [node name="Main" type="Node2D" unique_id=1099435278]
+script = ExtResource("1_5dlwx")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=195666668]
 
@@ -19,14 +23,25 @@ color = Color(0.36128113, 0.2816486, 0.49094737, 1)
 color = Color(0.33559087, 0.19037426, 0.14440879, 1)
 invert_enabled = true
 invert_border = 511.0
-polygon = PackedVector2Array(364, 246, 373, 113, 492, -48, 620, -50, 888, -156, 1013, -20, 1188, -28, 1292, 74, 1268, 324, 1306, 495, 1249, 576, 1196, 716, 1013, 620, 850, 766, 758, 857, 554, 844, 583, 753, 351, 638, 403, 548, 285, 325)
+polygon = PackedVector2Array(364, 246, 373, 113, 1292, 74, 1306, 495, 1249, 576, 1196, 716, 1013, 620, 850, 766, 583, 753, 351, 638, 403, 548, 285, 325)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=441128318]
-polygon = PackedVector2Array(285, 327, 365, 245, 374, 111, 492, -49, 621, -49, 889, -155, 1012, -20, 1189, -28, 1294, 76, 1268, 321, 1306, 497, 1248, 576, 1198, 716, 1013, 621, 756, 857, 555, 844, 582, 753, 352, 637, 403, 548, -6, 549, -4, 1160, 1612, 1159, 1613, -467, -22, -464, -5, 546, 403, 548)
+polygon = PackedVector2Array(365, 245, 374, 111, 1294, 76, 1268, 321, 1306, 497, 1248, 576, 1198, 716, 351, 661, 385, 748, 1391, 785, 1575, 9, 135, 16, 383, 740)
 
 [node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
-position = Vector2(673, 774)
+position = Vector2(789, 533)
 
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
 player = NodePath("../player")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1513449641]
+
+[node name="FadeOverlay" parent="UI" unique_id=175098471 instance=ExtResource("5_o81g6")]
+unique_name_in_owner = true
+visible = false
+
+[node name="PauseOverlay" parent="UI" unique_id=1367030926 instance=ExtResource("4_o81g6")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false

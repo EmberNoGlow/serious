@@ -1,7 +1,7 @@
 extends Actor
 
-const SPEED = 300.0
-
+@export var SPEED = 10.0
+@export var dcharge=2
 @onready var attack_cooldown_timer = Timer.new()
 @onready var charge_attack_timer = Timer.new()
 
@@ -12,10 +12,10 @@ const SPEED = 300.0
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 
-const DASH_SPEED := 1200.0
+@export var DASH_SPEED := 50.0
 const DASH_DURATION := 0.15
 const DASH_PREPARE := 0.05
-
+var tscale = Engine.time_scale
 var dash_direction := Vector2.ZERO
 var is_dashing := false
 
@@ -33,6 +33,8 @@ var state: State = State.IDLE
 var hit_targets: Array = []
 
 func change_state(new_state: State) -> void:
+	if tscale!=1:
+		tscale=1
 	state = new_state
 
 func _ready() -> void:
@@ -48,14 +50,17 @@ func _ready() -> void:
 	
 	attack_area.body_entered.connect(_on_body_entered)
 	attack_area.monitoring = false
+	
+	velocity=velocity.clamp(Vector2.ZERO,Vector2.ONE*SPEED)
 
 func _on_body_entered(body: Node) -> void:
-	if state == State.ATTACKING and not hit_targets.has(body):
-		hit_targets.append(body)
+	pass
+	#if state == State.ATTACKING and not hit_targets.has(body):
+		#hit_targets.append(body)
 
 func _process(_delta: float) -> void:
 	attack_area.look_at(get_global_mouse_position())
-
+	
 	if state == State.CHARGING:
 		var progress: float = (charge_attack_timer.wait_time - charge_attack_timer.time_left) / charge_attack_timer.wait_time
 		sprite.modulate = Color(1.0, 1.0 - progress, 1.0 - progress)
@@ -64,6 +69,8 @@ func _process(_delta: float) -> void:
 		var squash_x: float = 1.0 + (progress * 0.2)
 		var jitter_x: float = randf_range(-progress, progress) * 5.0
 		
+		tscale=0.3-(progress*0.3)
+		print(tscale)
 		sprite.scale = Vector2(squash_x, squash_y)
 		sprite.position.x = jitter_x
 		
@@ -87,49 +94,54 @@ func _physics_process(_delta: float) -> void:
 		change_state(State.CHARGING)
 		charge_attack_timer.start()
 		
-	if Input.is_action_just_released("attack"):
+	if Input.is_action_just_released("attack")&& dcharge>0:
 		if state == State.CHARGING:
 			charge_attack_timer.stop()
 			var tween = create_tween().set_parallel(true)
 			tween.tween_property(sprite, "scale", Vector2.ONE, 0.1)
 			tween.tween_property(sprite, "position", Vector2.ZERO, 0.1)
 			sprite.modulate = Color.WHITE
-			
+			dcharge-=1
 			change_state(State.IDLE)
 	
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_released("attack"):
 		if state in [State.IDLE, State.MOVE] and !is_dashing:
 			start_dash()
 
-	if state == State.DASH:
-		velocity = dash_direction * DASH_SPEED
+	#if state == State.DASH:
+		#velocity = dash_direction * DASH_SPEED
 
 		sprite.position.y = -sin(
 			(Time.get_ticks_msec() % 150) / 150.0 * PI
 		) * 12.0
-
+		
+		
 		move_and_slide()
 		return
 
-	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
-	
-	if state in [State.IDLE, State.MOVE]:
-		if direction != Vector2.ZERO:
-			change_state(State.MOVE)
-		else:
-			change_state(State.IDLE)
-	
-	if direction and state in [State.IDLE, State.MOVE]:
-		velocity = direction * SPEED
-		sprite.scale.x = move_toward(sprite.scale.x, 1.1, 0.02)
-		sprite.scale.y = move_toward(sprite.scale.y, 0.9, 0.02)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, 25.0)
-		if state in [State.IDLE, State.MOVE]:
-			sprite.scale = sprite.scale.move_toward(Vector2.ONE, 0.05)
-			sprite.position = sprite.position.move_toward(Vector2.ZERO, 0.5)
+	#var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+	#
+	#if state in [State.IDLE, State.MOVE]:
+		#if direction != Vector2.ZERO:
+			#change_state(State.MOVE)
+		#else:
+			#change_state(State.IDLE)
+	#
+	#if direction and state in [State.IDLE, State.MOVE]:
+		#velocity = direction * SPEED
+		#sprite.scale.x = move_toward(sprite.scale.x, 1.1, 0.02)
+		#sprite.scale.y = move_toward(sprite.scale.y, 0.9, 0.02)
+	#else:
+		#velocity = velocity.move_toward(Vector2.ZERO, 25.0)
+		#if state in [State.IDLE, State.MOVE]:
+			#sprite.scale = sprite.scale.move_toward(Vector2.ONE, 0.05)
+			#sprite.position = sprite.position.move_toward(Vector2.ZERO, 0.5)
 
 	move_and_slide()
+	var collision=move_and_collide(velocity)
+	if collision:
+		dcharge=2
+		velocity=velocity.bounce(collision.get_normal())
 
 func start_dash() -> void:
 	if is_dashing:
@@ -137,20 +149,21 @@ func start_dash() -> void:
 
 	is_dashing = true
 
-	var input_direction := Input.get_vector(
-		"left",
-		"right",
-		"up",
-		"down"
-	)
+	#var input_direction := Input.get_vector(
+		#"left",
+		#"right",
+		#"up",
+		#"down"
+	#)
 
 	dash_direction = (
-		input_direction.normalized()
-		if input_direction != Vector2.ZERO
-		else global_position.direction_to(get_global_mouse_position())
+		#input_direction.normalized()
+		#if input_direction != Vector2.ZERO
+		global_position.direction_to(get_global_mouse_position())
 	)
 
 	sprite.scale = Vector2(1.4, 0.6)
+	velocity = dash_direction * (DASH_SPEED * 0.3)
 
 	await get_tree().create_timer(DASH_PREPARE).timeout
 
@@ -168,7 +181,7 @@ func start_dash() -> void:
 	if !is_instance_valid(self):
 		return
 
-	velocity = dash_direction * (DASH_SPEED * 0.3)
+	
 
 	create_tween().tween_property(
 		sprite,

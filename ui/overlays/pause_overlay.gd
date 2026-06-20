@@ -16,6 +16,7 @@ func _ready() -> void:
 	back_button.pressed.connect(_pause_menu)
 	
 func grab_button_focus() -> void:
+	print($%ResumeButton.visible)
 	resume_button.grab_focus()
 	
 func _resume() -> void:
