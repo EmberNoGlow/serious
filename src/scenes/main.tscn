@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cywvqad6xj8ib"]
+
+[ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_kkvs4"]
+[ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
+
+[node name="Main" type="Node2D" unique_id=1099435278]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=195666668]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D" unique_id=724662009]
+offset_left = -157.0
+offset_top = -551.0
+offset_right = 1684.0
+offset_bottom = 1220.0
+mouse_filter = 2
+color = Color(0.36128113, 0.2816486, 0.49094737, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1571797799]
+color = Color(0.33559087, 0.19037426, 0.14440879, 1)
+invert_enabled = true
+invert_border = 511.0
+polygon = PackedVector2Array(364, 246, 373, 113, 492, -48, 620, -50, 888, -156, 1013, -20, 1188, -28, 1292, 74, 1268, 324, 1306, 495, 1249, 576, 1196, 716, 1013, 620, 850, 766, 758, 857, 554, 844, 583, 753, 351, 638, 403, 548, 285, 325)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=441128318]
+polygon = PackedVector2Array(285, 327, 365, 245, 374, 111, 492, -49, 621, -49, 889, -155, 1012, -20, 1189, -28, 1294, 76, 1268, 321, 1306, 497, 1248, 576, 1198, 716, 1013, 621, 756, 857, 555, 844, 582, 753, 352, 637, 403, 548, -6, 549, -4, 1160, 1612, 1159, 1613, -467, -22, -464, -5, 546, 403, 548)
+
+[node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
+position = Vector2(673, 774)
+
+[node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
+position = Vector2(750, 279)
+player = NodePath("../player")

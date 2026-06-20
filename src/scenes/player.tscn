@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://bqmajw8xq1ku1"]
+
+[ext_resource type="Script" uid="uid://ct72bk1gyhdw8" path="res://src/scripts/player.gd" id="1_cusn3"]
+[ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="2_v4rts"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_26beo"]
+
+[sub_resource type="Gradient" id="Gradient_v4rts"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.45673078, 0.6730769)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hwyk6"]
+gradient = SubResource("Gradient_v4rts")
+width = 128
+height = 96
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_26beo"]
+offsets = PackedFloat32Array(0.1658031, 0.83937824, 0.87564766, 0.9222798)
+colors = PackedColorArray(0.9935146, 1, 0.84225136, 1, 1, 1, 0.38431373, 1, 0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cusn3"]
+gradient = SubResource("Gradient_26beo")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v4rts"]
+size = Vector2(260, 20)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=603701563]
+script = ExtResource("1_cusn3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1483608283]
+shape = SubResource("CircleShape2D_26beo")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1538841719]
+position = Vector2(-8, -8)
+scale = Vector2(0.24999999, 0.24999999)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=205037610]
+position = Vector2(31.999998, 63.999996)
+scale = Vector2(0.99999994, 0.99999994)
+texture = SubResource("GradientTexture2D_hwyk6")
+
+[node name="Polygon2D" type="Polygon2D" parent="Node2D" unique_id=1890691856]
+texture = SubResource("GradientTexture2D_cusn3")
+polygon = PackedVector2Array(1.8856182, 1.8856182, 1.8856182, 62.225395, 62.225395, 62.225395, 62.225395, 1.8856182)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=762585794]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("2_v4rts")
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1653278209]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1181872959]
+position = Vector2(126, 0)
+shape = SubResource("RectangleShape2D_v4rts")
+
+[node name="Polygon2D" type="Polygon2D" parent="AttackArea" unique_id=1122673315]
+color = Color(1, 0.28235295, 0, 1)
+polygon = PackedVector2Array(256, 0, 96, -8, 0, 0, 96, 8)
