@@ -1,4 +1,6 @@
 # The Serious GODOT Game
+![lol](https://media.tenor.com/QWyZ0gl_H84AAAAd/mad-cat-fr-lol.gif)
+
 ## TODO LIST
 [example]
 - [x] movement
