@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmhq37e26k2ab"]
 
-[ext_resource type="Script" uid="uid://cluburgwbvee0" path="res://src/scenes/boss.gd" id="1_6neae"]
+[ext_resource type="Script" uid="uid://b5dev33qqyc5v" path="res://src/scenes/new_boss.gd" id="1_6neae"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m14y6"]
 radius = 30.0
@@ -13,6 +13,9 @@ colors = PackedColorArray(1.4714282, 0.631687, 0.30259925, 1, 0.19177616, 0, 0, 
 gradient = SubResource("Gradient_6neae")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_iw71n"]
+points = PackedVector2Array(0, 38, 24, 29, 36, 8, -35, 8, -24, 29)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1622177219]
 script = ExtResource("1_6neae")
@@ -27,3 +30,12 @@ shape = SubResource("CircleShape2D_m14y6")
 texture = SubResource("GradientTexture2D_iw71n")
 polygon = PackedVector2Array(0, 32, 8, 8, 32, 0, 56, 8, 64, 32, 56, 56, 32, 64, 8, 56)
 uv = PackedVector2Array(0, 32, 0, 0, 32.000015, 0, 64, 0, 64, 32, 64, 64, 32.000015, 64, 0, 64)
+
+[node name="shield" type="StaticBody2D" parent="." unique_id=596320990]
+position = Vector2(32, 32)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="shield" unique_id=416644711]
+rotation = 1.5707964
+shape = SubResource("ConvexPolygonShape2D_iw71n")
+one_way_collision_margin = 0.0

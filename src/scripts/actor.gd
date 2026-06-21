@@ -1,12 +1,13 @@
 extends CharacterBody2D
 class_name Actor
 
-var hp := 1
+var hp := 5
 
 func die():
 	print("DIIIIEEEEEE")
 
 func take_damage(double := false):
+	print(hp)
 	hp -= 1
 	if double:
 		hp -= 2

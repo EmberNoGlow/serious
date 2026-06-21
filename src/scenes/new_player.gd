@@ -1,5 +1,5 @@
 extends Actor
-@onready var camera =$Camera2D
+@export var camera :Camera2D
 @onready var zoom=camera.zoom
 @export var SPEED = 1000.0
 @export var max_speed = 2000
@@ -13,7 +13,7 @@ extends Actor
 
 @onready var sprite: Polygon2D = $Node2D/Polygon2D
 @onready var shadow: Sprite2D = $Node2D/Sprite2D
-
+@onready var ogscale=sprite.scale
 var dash_direction := Vector2.ZERO
 
 enum State {
@@ -33,7 +33,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	attack_area.look_at(get_global_mouse_position())
-	print(velocity.length())
+	#print(velocity.length())
+	await get_tree().create_timer(0.02).timeout
+	$Node2D/Sprite2D.vframes=$Node2D/Sprite2D.frame%2+1
 func _physics_process(delta: float) -> void:
 	$Label.text= str(dcharge)
 	if Input.is_action_pressed("attack"):
@@ -64,13 +66,14 @@ func _physics_process(delta: float) -> void:
 		charge_attack_timer.start()
 		
 	if Input.is_action_just_released("attack")&& dcharge>0:
+		sprite.scale=ogscale
 		if state == State.CHARGE:
 			charge_attack_timer.stop()
-			var tween = create_tween().set_parallel(true)
-			tween.tween_property(sprite, "scale", Vector2.ONE, 0.1)
-			tween.tween_property(sprite, "position", Vector2.ZERO, 0.1)
+			#var tween = create_tween().set_parallel(true)
+			#tween.tween_property(sprite, "scale", Vector2.ONE, 0.1)
+			#tween.tween_property(sprite, "position", Vector2.ZERO, 0.1)
 			sprite.modulate = Color.WHITE
-			sprite.scale = Vector2(1.8, 0.5)
+			#sprite.scale = Vector2(1.8, 0.5)
 			dcharge-=1
 			if state != State.DASH:
 				spawn_afterimages()
@@ -92,6 +95,8 @@ func _physics_process(delta: float) -> void:
 	#print(velocity.length())
 	var collision=move_and_collide(velocity)
 	if collision:
+		if collision.get_collider().has_method('take_damage'):
+			collision.get_collider().take_damage()
 		dcharge=2
 		velocity=velocity.lerp(Vector2.ZERO,0.2)
 		velocity=velocity.bounce(collision.get_normal())

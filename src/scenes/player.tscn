@@ -1,21 +1,10 @@
 [gd_scene format=3 uid="uid://bqmajw8xq1ku1"]
 
 [ext_resource type="Script" uid="uid://ccqncr3e07xb6" path="res://src/scenes/new_player.gd" id="1_v4rts"]
-[ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="2_v4rts"]
+[ext_resource type="Texture2D" uid="uid://dx2i6q7if857y" path="res://sprites/sawdrone.png" id="2_hwyk6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_26beo"]
-
-[sub_resource type="Gradient" id="Gradient_v4rts"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0.45673078, 0.6730769)
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_hwyk6"]
-gradient = SubResource("Gradient_v4rts")
-width = 128
-height = 96
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+radius = 9.055386
 
 [sub_resource type="Gradient" id="Gradient_26beo"]
 offsets = PackedFloat32Array(0.1658031, 0.83937824, 0.87564766, 0.9222798)
@@ -30,6 +19,7 @@ fill_from = Vector2(0.5, 0.5)
 size = Vector2(260, 20)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=603701563]
+collision_mask = 3
 script = ExtResource("1_v4rts")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1483608283]
@@ -40,25 +30,20 @@ position = Vector2(-8, -8)
 scale = Vector2(0.24999999, 0.24999999)
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=205037610]
-position = Vector2(31.999998, 63.999996)
-scale = Vector2(0.99999994, 0.99999994)
-texture = SubResource("GradientTexture2D_hwyk6")
+position = Vector2(32.000008, 32)
+scale = Vector2(1.8392757, 2.0512824)
+texture = ExtResource("2_hwyk6")
+vframes = 2
 
 [node name="Polygon2D" type="Polygon2D" parent="Node2D" unique_id=1890691856]
+visible = false
 texture = SubResource("GradientTexture2D_cusn3")
 polygon = PackedVector2Array(1.8856182, 1.8856182, 1.8856182, 62.225395, 62.225395, 62.225395, 62.225395, 1.8856182)
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=762585794]
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-script = ExtResource("2_v4rts")
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D" unique_id=1960834729]
-remote_path = NodePath("..")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1653278209]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1181872959]
+visible = false
 position = Vector2(126, 0)
 shape = SubResource("RectangleShape2D_v4rts")
 

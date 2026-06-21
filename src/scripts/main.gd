@@ -3,6 +3,7 @@ extends Node2D
 @onready var pause_overlay = %PauseOverlay
 func _ready() -> void:
 	fade_overlay.visible = true
+	$"StaticBody2D/arena gate".disabled=true
 	
 func _input(event) -> void:
 	if event.is_action_pressed("pause") and not pause_overlay.visible:

@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dkllcn6r0a7df" path="res://src/scripts/main.gd" id="1_5dlwx"]
 [ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_kkvs4"]
+[ext_resource type="Script" uid="uid://jwoctstcy3w2" path="res://src/scenes/arena_gate.gd" id="2_2lg1k"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
+[ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="3_dbro3"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o81g6"]
-size = Vector2(909, 623)
+size = Vector2(909, 603.5)
 
 [node name="Main" type="Node2D" unique_id=1099435278]
 script = ExtResource("1_5dlwx")
@@ -31,8 +33,24 @@ polygon = PackedVector2Array(381, 241, 373, 113, 1285, 122, 1223, 726, 1013, 724
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=441128318]
 polygon = PackedVector2Array(360, 1258, 738, 1254, 727, 729, 366.3839, 734.97473, 374, 111, 1287, 122, 1268, 321, 1269, 739, 1010, 727, 1008, 804, 987, 1529, 1149, 1537, 1267, 827, 1398, 828, 1402, 750, 1575, 9, 135, 16, 189.60846, 1149.126, -3, 1153, -1, 1262, -2, 1522, 193, 1526, 988, 1531, 989, 1436, 193.7239, 1430.0831, 195, 1261)
 
-[node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
+[node name="arena gate" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=804943770]
+position = Vector2(-60, 811)
+polygon = PackedVector2Array(789, 113, 1066, 123, 1070, -85, 784, -88)
+disabled = true
+one_way_collision = true
+script = ExtResource("2_2lg1k")
+
+[node name="player" parent="." unique_id=603701563 node_paths=PackedStringArray("camera") instance=ExtResource("1_kkvs4")]
 position = Vector2(285, 1362)
+camera = NodePath("Camera2D2")
+
+[node name="Camera2D2" type="Camera2D" parent="player" unique_id=1386345763]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("3_dbro3")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="player/Camera2D2" unique_id=91757358]
+remote_path = NodePath("..")
 
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
@@ -55,5 +73,7 @@ position = Vector2(816, 406)
 [node name="Area2D" type="Area2D" parent="." unique_id=870797403]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=242342964]
-position = Vector2(813, 418)
+position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
+
+[connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]
