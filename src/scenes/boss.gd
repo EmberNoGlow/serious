@@ -26,7 +26,7 @@ var aggression: float = 0.4
 @onready var sprite: Polygon2D = $Node2D/Polygon2D
 
 func _ready() -> void:
-	state = State.CIRCLING
+	state = State.IDLE
 
 signal boss_died(boss_position: Vector2)
 

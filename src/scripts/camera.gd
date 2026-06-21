@@ -2,8 +2,10 @@ extends Camera2D
 
 var shake_intensity: float = 0.0
 var shake_decay: float = 5.0
-
+enum State {following,arena}
+func _ready() -> void: var state: State = State.following
 func _process(delta: float) -> void:
+	
 	if shake_intensity > 0:
 		offset = Vector2(
 			randf_range(-shake_intensity, shake_intensity),

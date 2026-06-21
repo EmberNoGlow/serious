@@ -12,10 +12,10 @@ extends Actor
 @onready var attack_area: Area2D = $AttackArea
 @onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 
-@export var DASH_SPEED := 50.0
+@export var DASH_SPEED := 20.0
 const DASH_DURATION := 0.15
 const DASH_PREPARE := 0.05
-var tscale = Engine.time_scale
+
 var dash_direction := Vector2.ZERO
 var is_dashing := false
 
@@ -33,18 +33,18 @@ var state: State = State.IDLE
 var hit_targets: Array = []
 
 func change_state(new_state: State) -> void:
-	if tscale!=1:
-		tscale=1
+	if Engine.time_scale!=1:
+		Engine.time_scale=1
 	state = new_state
 
 func _ready() -> void:
 	add_child(attack_cooldown_timer)
 	add_child(charge_attack_timer)
 	
-	attack_cooldown_timer.wait_time = 3.0
+	attack_cooldown_timer.wait_time = 0.2
 	attack_cooldown_timer.one_shot = true
 	
-	charge_attack_timer.wait_time = 2.0
+	charge_attack_timer.wait_time = 0.5
 	charge_attack_timer.one_shot = true
 	charge_attack_timer.timeout.connect(_on_charge_complete)
 	
@@ -60,23 +60,26 @@ func _on_body_entered(body: Node) -> void:
 
 func _process(_delta: float) -> void:
 	attack_area.look_at(get_global_mouse_position())
+	$Label.text= str(dcharge)
 	
 	if state == State.CHARGING:
-		var progress: float = (charge_attack_timer.wait_time - charge_attack_timer.time_left) / charge_attack_timer.wait_time
-		sprite.modulate = Color(1.0, 1.0 - progress, 1.0 - progress)
+		if Input.is_action_pressed("attack"):
+			var progress: float = (charge_attack_timer.wait_time - charge_attack_timer.time_left) / charge_attack_timer.wait_time
+			sprite.modulate = Color(1.0, 1.0 - progress, 1.0 - progress)
 		
-		var squash_y: float = 1.0 - (progress * 0.3)
-		var squash_x: float = 1.0 + (progress * 0.2)
-		var jitter_x: float = randf_range(-progress, progress) * 5.0
+			var squash_y: float = 1.0 - (progress * 0.3)
+			var squash_x: float = 1.0 + (progress * 0.2)
+			var jitter_x: float = randf_range(-progress, progress) * 5.0
 		
-		tscale=0.3-(progress*0.3)
-		print(tscale)
-		sprite.scale = Vector2(squash_x, squash_y)
-		sprite.position.x = jitter_x
+			Engine.time_scale=0.3-(progress*0.3)
+			print(Engine.time_scale)
+			sprite.scale = Vector2(squash_x, squash_y)
+			sprite.position.x = jitter_x
 		
-		if camera and camera.has_method("start_shake"):
-			camera.start_shake(pow(progress, 6.0) * 4.0 + 0.5)
+			if camera and camera.has_method("start_shake"):
+				camera.start_shake(pow(progress, 6.0) * 4.0 + 0.5)
 			
+		else:change_state(State.DASH)
 	elif state != State.ATTACKING:
 		if camera and camera.has_method("end_shake"):
 			camera.end_shake()
@@ -102,11 +105,14 @@ func _physics_process(_delta: float) -> void:
 			tween.tween_property(sprite, "position", Vector2.ZERO, 0.1)
 			sprite.modulate = Color.WHITE
 			dcharge-=1
-			change_state(State.IDLE)
+			if state != State.DASH:
+				change_state(State.DASH)
+				start_dash()
+			
 	
-	if Input.is_action_just_released("attack"):
-		if state in [State.IDLE, State.MOVE] and !is_dashing:
-			start_dash()
+	#if Input.is_action_just_released("attack"):
+		#if state in [State.IDLE, State.MOVE] and !is_dashing:
+			#start_dash()
 
 	#if state == State.DASH:
 		#velocity = dash_direction * DASH_SPEED
@@ -116,7 +122,7 @@ func _physics_process(_delta: float) -> void:
 		) * 12.0
 		
 		
-		move_and_slide()
+		
 		return
 
 	#var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
@@ -201,9 +207,7 @@ func spawn_afterimages() -> void:
 
 		if state != State.DASH:
 			return
-
 		var ghost := Polygon2D.new()
-
 		ghost.polygon = sprite.polygon
 		ghost.color = Color(
 			1.0,
@@ -245,7 +249,7 @@ func spawn_afterimages() -> void:
 
 func _on_charge_complete() -> void:
 	attack_cooldown_timer.start()
-	change_state(State.ATTACKING)
+	#change_state(State.ATTACKING)
 
 	hit_targets.clear()
 
@@ -255,10 +259,10 @@ func _on_charge_complete() -> void:
 
 	attack_area.monitoring = false
 
-	for body in hit_targets:
-		if body is Actor and body != self:
-			print(body)
-			body.take_damage(true)
+	#for body in hit_targets:
+		#if body is Actor and body != self:
+			#print(body)
+			#body.take_damage(true)
 
 	await get_tree().create_timer(0.2).timeout
 	

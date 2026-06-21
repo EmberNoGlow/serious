@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqmajw8xq1ku1"]
 
-[ext_resource type="Script" uid="uid://ct72bk1gyhdw8" path="res://src/scripts/player.gd" id="1_cusn3"]
+[ext_resource type="Script" uid="uid://ccqncr3e07xb6" path="res://src/scenes/new_player.gd" id="1_v4rts"]
 [ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="2_v4rts"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_26beo"]
@@ -30,7 +30,7 @@ fill_from = Vector2(0.5, 0.5)
 size = Vector2(260, 20)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=603701563]
-script = ExtResource("1_cusn3")
+script = ExtResource("1_v4rts")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1483608283]
 shape = SubResource("CircleShape2D_26beo")
@@ -53,6 +53,9 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("2_v4rts")
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D" unique_id=1960834729]
+remote_path = NodePath("..")
+
 [node name="AttackArea" type="Area2D" parent="." unique_id=1653278209]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1181872959]
@@ -60,5 +63,11 @@ position = Vector2(126, 0)
 shape = SubResource("RectangleShape2D_v4rts")
 
 [node name="Polygon2D" type="Polygon2D" parent="AttackArea" unique_id=1122673315]
-color = Color(1, 0.28235295, 0, 1)
+color = Color(1, 0.28235295, 0, 0.29803923)
 polygon = PackedVector2Array(256, 0, 96, -8, 0, 0, 96, 8)
+
+[node name="Label" type="Label" parent="." unique_id=615429524]
+offset_left = 58.0
+offset_top = -70.0
+offset_right = 98.0
+offset_bottom = -47.0

@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o81g6"]
+size = Vector2(909, 623)
+
 [node name="Main" type="Node2D" unique_id=1099435278]
 script = ExtResource("1_5dlwx")
 
@@ -23,13 +26,13 @@ color = Color(0.36128113, 0.2816486, 0.49094737, 1)
 color = Color(0.33559087, 0.19037426, 0.14440879, 1)
 invert_enabled = true
 invert_border = 511.0
-polygon = PackedVector2Array(364, 246, 373, 113, 1292, 74, 1306, 495, 1249, 576, 1196, 716, 1013, 620, 850, 766, 583, 753, 351, 638, 403, 548, 285, 325)
+polygon = PackedVector2Array(381, 241, 373, 113, 1285, 122, 1223, 726, 1013, 724, 985, 1435, 190, 1429, 192, 1263, 741, 1258, 724, 722, 406, 722, 389, 364)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=441128318]
-polygon = PackedVector2Array(365, 245, 374, 111, 1294, 76, 1268, 321, 1306, 497, 1248, 576, 1198, 716, 351, 661, 385, 748, 1391, 785, 1575, 9, 135, 16, 383, 740)
+polygon = PackedVector2Array(360, 1258, 738, 1254, 727, 729, 366.3839, 734.97473, 374, 111, 1287, 122, 1268, 321, 1269, 739, 1010, 727, 1008, 804, 987, 1529, 1149, 1537, 1267, 827, 1398, 828, 1402, 750, 1575, 9, 135, 16, 189.60846, 1149.126, -3, 1153, -1, 1262, -2, 1522, 193, 1526, 988, 1531, 989, 1436, 193.7239, 1430.0831, 195, 1261)
 
 [node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
-position = Vector2(789, 533)
+position = Vector2(285, 1362)
 
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
@@ -45,3 +48,12 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1379328835]
+position = Vector2(816, 406)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=870797403]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=242342964]
+position = Vector2(813, 418)
+shape = SubResource("RectangleShape2D_o81g6")
