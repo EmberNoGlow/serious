@@ -2,31 +2,41 @@ extends Actor
 
 enum State {
 	IDLE,
-	CIRCLING,
+	RUSH,
+	CIRCLE,
 	DODGING,
-	WINDUP,
 	ATTACK,
 	RECOVER
 }
 
+#Export
 @export var player: Actor
 
 @export var move_speed: float = 220.0
 @export var dodge_speed: float = 520.0
-@export var circle_radius: float = 180.0
+@export var vieu_radius: float = 250.0
 
-@export var attack_range: float = 90.0
+@export var attack_range: float = 120.0
+@export var attack_speed: float = 0.8
 @export var reaction_time: float = 0.35
 
-var state: State = State.CIRCLING
+#Other
+var state: State = State.IDLE
 var state_timer: float = 0.0
 
-var aggression: float = 0.4
+var attack_dir: Vector2 = Vector2.ZERO
+var dodge_dir = 1.0
 
-@onready var sprite: Polygon2D = $Node2D/Polygon2D
+var turn_angle := 0.0
+
+@onready var sprite: Polygon2D = $Node2D/blade
+
+#####################
+# FUNCTIONS
+#####################
 
 func _ready() -> void:
-	state = State.CIRCLING
+	state = State.IDLE
 
 signal boss_died(boss_position: Vector2)
 
@@ -47,50 +57,50 @@ func fade_out_and_free() -> void:
 	await tween.finished
 	queue_free()
 
-
+##################
+# Py_Process
+##################
 func _physics_process(delta: float) -> void:
 	state_timer += delta
-
+	
 	match state:
-		State.CIRCLING:
-			circle_player(delta)
+		State.IDLE:
+			look_for_player(delta)
 			check_player_charge()
-
+		
 		State.DODGING:
 			perform_dodge(delta)
-
-		State.WINDUP:
-			windup_attack(delta)
-
+		
+		State.RUSH:
+			rush(delta)
+			check_player_charge()
+		
+		State.CIRCLE:
+			circle(delta)
+			check_player_charge()
+		
 		State.ATTACK:
 			perform_attack()
-
+		
 		State.RECOVER:
 			recover(delta)
-
-
+	
+	sprite.global_rotation += 10
+	
 	move_and_slide()
 
 
-func circle_player(delta: float) -> void:
+func look_for_player(delta: float) -> void:
 	if not player:
 		return
-
-	var dir := (player.global_position - global_position).normalized()
-	var dist := global_position.distance_to(player.global_position)
-
-	var tangent := Vector2(-dir.y, dir.x)
 	
-	var approach_weight = 0.3 if dist > circle_radius else 0.0
-	var move_dir = (tangent + dir * approach_weight).normalized()
-
-	velocity = move_dir * move_speed
-
-	aggression = clamp(1.0 - (dist / 500.0), 0.2, 1.0)
-
-	if dist <= attack_range + 20.0:
-		if randf() < delta * aggression * 2.0:
-			start_attack()
+	if position.distance_to(player.position) < vieu_radius:
+		state = State.RUSH
+	else:
+		#wrong place
+		#velocity = (player.position -position).normalized() * move_speed
+		velocity = Vector2(randf(),randf()).normalized() * move_speed / 10
+		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 
 func check_player_charge() -> void:
@@ -105,67 +115,69 @@ func check_player_charge() -> void:
 			player.charge_attack_timer.wait_time -
 			player.charge_attack_timer.time_left
 		) / player.charge_attack_timer.wait_time
-
 		# Boss reacts late (fair reaction delay)
-		if progress > (1.0 - reaction_time):
-			start_dodge()
-
-
-func start_dodge() -> void:
-	state = State.DODGING
-	state_timer = 0.0
-
-	# Direction from player to boss
-	var from_player := (global_position - player.global_position).normalized()
-
-	# Perpendicular dodge direction
-	var dodge_dir := from_player.orthogonal()
-
-	# Random flip for unpredictability
-	if randf() < 0.5:
-		dodge_dir *= -1.0
-
-	velocity = dodge_dir * dodge_speed
+		if progress > 0.8:
+			dodge_dir = 1.0
+			if randf() > 0.5:
+				dodge_dir = -1.0
+			state = State.DODGING
+			state_timer = 0.0
 
 func perform_dodge(delta: float) -> void:
 	# Short dodge duration
 	if state_timer > 0.25:
-		start_recover()
-
+		state = State.RECOVER
 	# Slight drag so it doesn't feel robotic
-	velocity = velocity.move_toward(Vector2.ZERO, 8.0)
+	velocity = (position.direction_to(player.position).orthogonal() * move_speed * 2) * dodge_dir
 
-func start_attack() -> void:
-	state = State.WINDUP
-	state_timer = 0.0
-	velocity = Vector2.ZERO
-
-func windup_attack(delta: float) -> void:
-	# Visual telegraph phase
-	sprite.modulate = Color(1.0, 0.3, 0.3)
-
-	# Shake or tension could be added here
-
-	if state_timer > 0.6:
-		state = State.ATTACK
+func rush(delta: float) -> void:
+	look_at(player.position)
+	if position.distance_to(player.position) < attack_range:
+		state = State.CIRCLE
+	else:
 		state_timer = 0.0
+		sprite.modulate = Color(0.661, 0.445, 0.0, 1.0)
+		velocity += transform.x * move_speed / 60
+		velocity = velocity.limit_length(move_speed)
+
+func circle(delta: float) -> void:
+	sprite.modulate = Color(0.661, 0.445, 0.0, 1.0)
+	if position.distance_to(player.position) < attack_range:
+		turn_angle += 0.01
+	elif position.distance_to(player.position) > vieu_radius:
+		state = State.RUSH
+		return
+	else:
+		turn_angle -= 0.01
+	
+	look_at(player.position)
+	rotate(turn_angle)
+	velocity += transform.y * move_speed / 10
+	velocity = velocity.limit_length(move_speed)
+	if state_timer > 3:
+		state_timer = 0.0
+		attack_dir = position.direction_to(player.position)
+		state = State.ATTACK
+		sprite.modulate = Color(1.0, 0.3, 0.3)
 
 func perform_attack() -> void:
 	# One-shot hit logic
-	if global_position.distance_to(player.global_position) < attack_range:
-		if player.has_method("take_damage"):
-			player.take_damage(true)
+	velocity /= 1.08
+	if state_timer >= attack_speed:
+		velocity = attack_dir * move_speed * 3
 
-	start_recover()
-
-func start_recover() -> void:
-	state = State.RECOVER
-	state_timer = 0.0
-	sprite.modulate = Color(0.7, 0.7, 1.0)
+		state = State.RECOVER
+		state_timer = 0.0
 
 func recover(delta: float) -> void:
-	velocity = velocity.move_toward(Vector2.ZERO, 15.0)
-
-	if state_timer > 0.5:
-		state = State.CIRCLING
+	velocity /= 1.05
+	sprite.modulate = Color(0.322, 0.001, 0.861, 1.0)
+	if state_timer > 1:
+		state = State.RUSH
 		state_timer = 0.0
+
+func _on_damage_zone_body_entered(body: Node2D) -> void:
+	print(body.name)
+	if body == player:
+		if body.has_method("take_damage"):
+			body.take_damage(true)

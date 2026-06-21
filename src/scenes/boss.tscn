@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cluburgwbvee0" path="res://src/scenes/boss.gd" id="1_6neae"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m14y6"]
-radius = 30.0
+radius = 19.026299
 
 [sub_resource type="Gradient" id="Gradient_6neae"]
 offsets = PackedFloat32Array(0.12435233, 0.34715027, 0.53367877, 0.7564767, 0.77720207)
@@ -14,16 +14,26 @@ gradient = SubResource("Gradient_6neae")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhunq"]
+radius = 33.01515
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1622177219]
 script = ExtResource("1_6neae")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1374403669]
-position = Vector2(32, 32)
 shape = SubResource("CircleShape2D_m14y6")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=167061710]
 
-[node name="Polygon2D" type="Polygon2D" parent="Node2D" unique_id=768999941]
+[node name="blade" type="Polygon2D" parent="Node2D" unique_id=768999941]
+offset = Vector2(-32, -32)
 texture = SubResource("GradientTexture2D_iw71n")
 polygon = PackedVector2Array(0, 32, 8, 8, 32, 0, 56, 8, 64, 32, 56, 56, 32, 64, 8, 56)
 uv = PackedVector2Array(0, 32, 0, 0, 32.000015, 0, 64, 0, 64, 32, 64, 64, 32.000015, 64, 0, 64)
+
+[node name="damageZone" type="Area2D" parent="." unique_id=129063802]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="damageZone" unique_id=1717186105]
+shape = SubResource("CircleShape2D_bhunq")
+
+[connection signal="body_entered" from="damageZone" to="." method="_on_damage_zone_body_entered"]
