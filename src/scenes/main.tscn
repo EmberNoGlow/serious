@@ -26,15 +26,14 @@ color = Color(0.36128113, 0.2816486, 0.49094737, 1)
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1571797799]
 color = Color(0.33559087, 0.19037426, 0.14440879, 1)
-invert_enabled = true
 invert_border = 511.0
-polygon = PackedVector2Array(381, 241, 373, 113, 1285, 122, 1223, 726, 1013, 724, 985, 1435, 190, 1429, 192, 1263, 741, 1258, 724, 722, 406, 722, 389, 364)
+polygon = PackedVector2Array(-95, -501, 1713, -358, 1680, 1620, -8, 1642)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=441128318]
-polygon = PackedVector2Array(360, 1258, 738, 1254, 727, 729, 366.3839, 734.97473, 374, 111, 1287, 122, 1268, 321, 1269, 739, 1010, 727, 1008, 804, 987, 1529, 1149, 1537, 1267, 827, 1398, 828, 1402, 750, 1575, 9, 135, 16, 189.60846, 1149.126, -3, 1153, -1, 1262, -2, 1522, 193, 1526, 988, 1531, 989, 1436, 193.7239, 1430.0831, 195, 1261)
+polygon = PackedVector2Array(376, 1024, 374.83237, 1257.843, 738, 1254, 727, 729, 366.3839, 734.97473, 1340, 712, 1590, -155, 107, -203, 146, 1133, -3, 1153, -1, 1262, -2, 1522, 193, 1526, 988, 1531, 1112, 1535, 1132, 709, 1000, 718, 981, 1430, 615.4352, 1430.0386, 193.7239, 1430.0831, 197, 1025)
 
 [node name="arena gate" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=804943770]
-position = Vector2(-60, 811)
+position = Vector2(-63, 812)
 polygon = PackedVector2Array(789, 113, 1066, 123, 1070, -85, 784, -88)
 disabled = true
 one_way_collision = true
@@ -71,8 +70,10 @@ visible = false
 position = Vector2(816, 406)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=870797403]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=242342964]
+visible = false
 position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
 

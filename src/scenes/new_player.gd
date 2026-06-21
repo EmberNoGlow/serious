@@ -1,6 +1,6 @@
 extends Actor
 @export var camera :Camera2D
-@onready var zoom=camera.zoom
+#@onready var zoom=camera.zoom
 @export var SPEED = 1000.0
 @export var max_speed = 2000
 @export var min_speed = 500
@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		var progress: float = (charge_attack_timer.wait_time - charge_attack_timer.time_left) / charge_attack_timer.wait_time
 		sprite.modulate = Color(1.0, 1.0 - progress, 1.0 - progress)
 		
-		camera.zoom=zoom+Vector2.ONE*0.2*progress
+		#camera.zoom=zoom+Vector2.ONE*0.2*progress
 		
 		
 		var squash_y: float = 1.0 - (progress * 0.3)
@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		sprite.position.x = jitter_x
 		if camera and camera.has_method("start_shake"):
 			camera.start_shake(pow(progress, 6.0) * 4.0 + 0.5)
-	else:camera.zoom=zoom
+	#else:camera.zoom=zoom
 	
 	var target := Vector2(0.5, 0.2) if state == State.DASH else Vector2.ONE
 	shadow.scale = shadow.scale.lerp(target, 0.2)
@@ -93,14 +93,19 @@ func _physics_process(delta: float) -> void:
 					velocity*=min_speed*delta/velocity.length()
 				change_state(State.DASH)
 	#print(velocity.length())
-	var collision=move_and_collide(velocity)
+	var collision = move_and_collide(velocity )
+
 	if collision:
-		if collision.get_collider().has_method('take_damage'):
-			collision.get_collider().take_damage()
 		dcharge=2
-		velocity=velocity.lerp(Vector2.ZERO,0.2)
-		velocity=velocity.bounce(collision.get_normal())
-	
+		var normal = collision.get_normal()
+		var impact = abs(velocity.normalized().dot(normal))
+
+		if impact > 0.7:
+			velocity = velocity.bounce(normal)
+		else:
+			velocity = velocity.slide(normal)
+			print(velocity)
+
 	move_and_slide()
 
 func spawn_afterimages() -> void:
