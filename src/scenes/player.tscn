@@ -51,7 +51,6 @@ shape = SubResource("CircleShape2D_26beo")
 scale = Vector2(0.24999999, 0.24999999)
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D" unique_id=1570782151]
-position = Vector2(32.000008, 32)
 scale = Vector2(1.8392757, 2.0512824)
 sprite_frames = SubResource("SpriteFrames_l2v1k")
 autoplay = "default"
