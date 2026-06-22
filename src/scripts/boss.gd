@@ -75,7 +75,6 @@ func fade_out_and_free() -> void:
 ##################
 func _physics_process(delta: float) -> void:
 	state_timer += delta
-	
 
 	match state:
 		State.IDLE:
@@ -107,8 +106,6 @@ func _physics_process(delta: float) -> void:
 			pass
 
 	sprite.global_rotation = 0
-	
-	
 
 	move_and_slide()
 
