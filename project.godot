@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 UserSettings="*res://settings/user_settings.gd"
+Main="*uid://dkllcn6r0a7df"
 
 [display]
 
