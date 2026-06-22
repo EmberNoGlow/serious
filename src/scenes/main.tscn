@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c8s88hdnfu1c0" path="res://src/scripts/new_player.gd" id="4_kokaf"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
+[ext_resource type="PackedScene" uid="uid://baiucji131ghk" path="res://src/scenes/tower.tscn" id="9_kokaf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o81g6"]
 size = Vector2(909, 603.5)
@@ -77,5 +78,8 @@ visible = false
 visible = false
 position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
+
+[node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
+position = Vector2(289, 1250)
 
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]
