@@ -30,7 +30,7 @@ var dodge_dir = 1.0
 
 var turn_angle := 0.0
 
-@onready var sprite: Polygon2D = $Node2D/blade
+@onready var sprite: Node2D = $sprites
 
 #####################
 # FUNCTIONS
