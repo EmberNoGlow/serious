@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://jwoctstcy3w2" path="res://src/scripts/arena_gate.gd" id="2_2lg1k"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
 [ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="3_dbro3"]
+[ext_resource type="Script" uid="uid://c8s88hdnfu1c0" path="res://src/scripts/new_player.gd" id="4_kokaf"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
 
@@ -39,9 +40,9 @@ disabled = true
 one_way_collision = true
 script = ExtResource("2_2lg1k")
 
-[node name="player" parent="." unique_id=603701563 node_paths=PackedStringArray("camera") instance=ExtResource("1_kkvs4")]
+[node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
 position = Vector2(285, 1362)
-camera = NodePath("Camera2D2")
+script = ExtResource("4_kokaf")
 
 [node name="Camera2D2" type="Camera2D" parent="player" unique_id=1386345763]
 position_smoothing_enabled = true

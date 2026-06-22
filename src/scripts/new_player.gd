@@ -1,8 +1,8 @@
 extends Actor
 @export var camera :Camera2D
 #@onready var zoom=camera.zoom
-@export var SPEED = 700.0
-@export var max_speed = 2000
+@export var SPEED = 500.0
+@export var max_speed = 7000
 @export var min_speed = 500
 @export var dcharge=2
 
@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		velocity*=max_speed*delta/velocity.length()
 	#if velocity.length()<min_speed*delta:
 		#velocity*=min_speed*delta/velocity.length()
-	if Input.is_action_pressed("attack"):
+	if Input.is_action_pressed("attack")and dcharge>0:
 		#print(Engine.time_scale)
 		var progress: float = (charge_attack_timer.wait_time - charge_attack_timer.time_left) / charge_attack_timer.wait_time
 		sprite.modulate = Color(1.0, 1.0 - progress, 1.0 - progress)
@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 		#var squash_x: float = 1.0 + (progress * 0.2)
 		#var jitter_x: float = randf_range(-progress, progress) * 5.0
 		
-		Engine.time_scale=0.3-(progress*0.3)
+		Engine.time_scale=0.4-(progress*0.2)
 		
 		#sprite.scale = Vector2(squash_x, squash_y)
 		#sprite.position.x = jitter_x
@@ -73,10 +73,13 @@ func _physics_process(delta: float) -> void:
 	
 	if direction :#and state in [State.IDLE, State.MOVE]:
 		velocity += direction * SPEED*delta/150
+		if velocity.length()>max_speed*delta:
+			print(velocity)
+			velocity*=max_speed*delta/velocity.length()
 		sprite.scale.x = move_toward(sprite.scale.x, 1.1, 0.02)
 		sprite.scale.y = move_toward(sprite.scale.y, 0.9, 0.02)
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, 0.08)
+		velocity = velocity.move_toward(Vector2.ZERO, 0.03)
 		if state in [State.IDLE, State.MOVE]:
 			sprite.scale = sprite.scale.move_toward(Vector2.ONE, 0.05)
 			sprite.position = sprite.position.move_toward(Vector2.ZERO, 0.5)
@@ -125,7 +128,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity = velocity.slide(normal)
 			#print(velocity)
-
+	velocity*=Engine.time_scale
 	move_and_slide()
 
 func spawn_afterimages() -> void:
