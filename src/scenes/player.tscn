@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqmajw8xq1ku1"]
 
-[ext_resource type="Script" uid="uid://ccqncr3e07xb6" path="res://src/scenes/new_player.gd" id="1_v4rts"]
+[ext_resource type="Script" uid="uid://ccqncr3e07xb6" path="res://src/scripts/new_player.gd" id="1_v4rts"]
 [ext_resource type="Texture2D" uid="uid://dx2i6q7if857y" path="res://sprites/sawdrone.png" id="2_hwyk6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_26beo"]

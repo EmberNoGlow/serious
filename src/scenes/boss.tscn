@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmhq37e26k2ab"]
 
-[ext_resource type="Script" uid="uid://cluburgwbvee0" path="res://src/scenes/boss.gd" id="1_6neae"]
+[ext_resource type="Script" uid="uid://cluburgwbvee0" path="res://src/scripts/boss.gd" id="1_6neae"]
 [ext_resource type="Texture2D" uid="uid://ccmn60puyk4q0" path="res://sprites/Drill_sprite_sheet.png" id="2_u82mp"]
 [ext_resource type="Texture2D" uid="uid://cqvralrtcx3a5" path="res://sprites/BossBodySpriteSheet.new.png" id="3_0iko7"]
 [ext_resource type="Texture2D" uid="uid://ciysvjxfiadwb" path="res://sprites/Sawblade_ring.png" id="4_4f3gq"]
@@ -51,7 +51,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xwhvi")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 8.0
 }]
@@ -94,7 +94,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sdw6q")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 2.0
 }]
@@ -130,7 +130,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nlhet")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
