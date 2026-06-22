@@ -155,20 +155,22 @@ uv = PackedVector2Array(0, 32, 0, 0, 32.000015, 0, 64, 0, 64, 32, 64, 64, 32.000
 [node name="CollisionShape2D" type="CollisionShape2D" parent="damageZone" unique_id=1717186105]
 shape = SubResource("CircleShape2D_bhunq")
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=782700503]
+[node name="sprites" type="Node2D" parent="." unique_id=1363306940]
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="sprites" unique_id=782700503]
 position = Vector2(5.9604645e-08, 27)
 scale = Vector2(0.16666666, 0.1758242)
 sprite_frames = SubResource("SpriteFrames_a0647")
 autoplay = "default"
 frame_progress = 0.004274183
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1164338806]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="sprites" unique_id=1164338806]
 position = Vector2(-0.062498666, -3.8146973e-06)
 scale = Vector2(0.14639877, 0.16689754)
 sprite_frames = SubResource("SpriteFrames_qgu0c")
 frame_progress = 0.9808673
 
-[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="." unique_id=1398035870]
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="sprites" unique_id=1398035870]
 position = Vector2(2.3841858e-07, 13)
 scale = Vector2(0.11809634, 0.16605839)
 sprite_frames = SubResource("SpriteFrames_q4frh")
