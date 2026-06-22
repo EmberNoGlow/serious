@@ -6,6 +6,28 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_26beo"]
 radius = 9.055386
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4rts"]
+atlas = ExtResource("2_hwyk6")
+region = Rect2(0, 0, 110, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwyk6"]
+atlas = ExtResource("2_hwyk6")
+region = Rect2(0, 39, 110, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2v1k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4rts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwyk6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
 [sub_resource type="Gradient" id="Gradient_26beo"]
 offsets = PackedFloat32Array(0.1658031, 0.83937824, 0.87564766, 0.9222798)
 colors = PackedColorArray(0.9935146, 1, 0.84225136, 1, 1, 1, 0.38431373, 1, 0, 0, 0, 1, 0, 0, 0, 0)
@@ -29,11 +51,12 @@ shape = SubResource("CircleShape2D_26beo")
 position = Vector2(-8, -8)
 scale = Vector2(0.24999999, 0.24999999)
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=205037610]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D" unique_id=1570782151]
 position = Vector2(32.000008, 32)
 scale = Vector2(1.8392757, 2.0512824)
-texture = ExtResource("2_hwyk6")
-vframes = 2
+sprite_frames = SubResource("SpriteFrames_l2v1k")
+autoplay = "default"
+frame_progress = 0.26160353
 
 [node name="Polygon2D" type="Polygon2D" parent="Node2D" unique_id=1890691856]
 visible = false

@@ -7,7 +7,7 @@ func die():
 	print("DIIIIEEEEEE")
 
 func take_damage(double := false):
-	print(hp)
+	print(str(hp)+" "+name)
 	hp -= 1
 	if double:
 		hp -= 2
