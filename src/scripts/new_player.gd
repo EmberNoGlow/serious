@@ -47,7 +47,7 @@ func fade_out_and_free() -> void:
 	await tween.finished
 	queue_free()
 func _ready() -> void:
-	
+	charge_attack_timer.ignore_time_scale=true
 	add_child(charge_attack_timer)
 
 func _process(delta: float) -> void:

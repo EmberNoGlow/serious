@@ -2,22 +2,19 @@ extends Node2D
 
 @onready var fade_overlay = %FadeOverlay
 @onready var pause_overlay = %PauseOverlay
-
+@onready var camera=$Camera2D
 @onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
 
 var camz1=Vector2.ONE
 var camz2=Vector2.ONE*0.5
 
-@onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
-var camz1=Vector2.ONE
-var camz2=Vector2.ONE*0.5
 var circle
 enum cstate{follow,arena}
 var camstate=cstate.follow
 func _ready() -> void:
-	$player.camera=$Camera2D2
+	$player.camera=camera
 	
 	fade_overlay.visible = true
 	$"StaticBody2D/arena gate".disabled = true
