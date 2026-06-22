@@ -42,6 +42,7 @@ script = ExtResource("2_2lg1k")
 
 [node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
 position = Vector2(285, 1362)
+collision_mask = 1
 script = ExtResource("4_kokaf")
 SPEED = 500.0
 max_speed = 10000
@@ -51,9 +52,6 @@ position = Vector2(285, 1362)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("3_dbro3")
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D" unique_id=91757358]
-remote_path = NodePath("..")
 
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
