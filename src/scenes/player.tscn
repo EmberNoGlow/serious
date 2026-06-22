@@ -23,7 +23,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hwyk6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 7.0
 }]
@@ -48,7 +48,6 @@ script = ExtResource("1_v4rts")
 shape = SubResource("CircleShape2D_26beo")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1538841719]
-position = Vector2(-8, -8)
 scale = Vector2(0.24999999, 0.24999999)
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D" unique_id=1570782151]
