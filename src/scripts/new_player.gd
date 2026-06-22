@@ -2,7 +2,7 @@ extends Actor
 @export var camera :Camera2D
 #@onready var zoom=camera.zoom
 @export var SPEED = 500.0
-@export var max_speed = 10000
+@export var max_speed = 7000
 @export var min_speed = 500
 @export var dcharge=2
 
@@ -27,25 +27,7 @@ func change_state(new_state: State) -> void:
 	if Engine.time_scale!=1:
 		Engine.time_scale=1
 	state = new_state
-func die() -> void:
 	
-	
-
-	set_physics_process(false)
-	$CollisionShape2D.disabled = true
-	await get_tree().create_timer(2)
-
-	fade_out_and_free()
-
-
-func fade_out_and_free() -> void:
-	await get_tree().create_timer(1.2).timeout
-
-	var tween = create_tween()
-	tween.tween_property(sprite, "modulate:a", 0.0, 1.5)
-
-	await tween.finished
-	queue_free()
 func _ready() -> void:
 	charge_attack_timer.ignore_time_scale=true
 	add_child(charge_attack_timer)
@@ -122,7 +104,7 @@ func _physics_process(delta: float) -> void:
 				spawn_afterimages()
 				dash_direction = (global_position.direction_to(get_global_mouse_position()))
 				#sprite.scale = Vector2(1.4, 0.6)
-				var vdash = dash_direction * (SPEED)*delta*2
+				var vdash = dash_direction * (SPEED)*delta
 				
 				#print(velocity.dot(vdash))
 				if velocity.dot(vdash)<-0.5:

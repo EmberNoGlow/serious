@@ -38,21 +38,30 @@ polygon = PackedVector2Array(376, 1024, 374.83237, 1257.843, 738, 1254, 727, 729
 position = Vector2(-63, 812)
 polygon = PackedVector2Array(789, 113, 1066, 123, 1070, -85, 784, -88)
 disabled = true
+one_way_collision = true
 script = ExtResource("2_2lg1k")
 
 [node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
 position = Vector2(285, 1362)
 collision_mask = 1
 script = ExtResource("4_kokaf")
-SPEED = 500.0
-max_speed = 10000
 
+<<<<<<< HEAD
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1386345763]
 position = Vector2(285, 1362)
+=======
+[node name="Camera2D2" type="Camera2D" parent="player" unique_id=1386345763]
+>>>>>>> parent of 426f854 (dynamic camera positions)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("3_dbro3")
 
+<<<<<<< HEAD
+=======
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="player/Camera2D2" unique_id=91757358]
+remote_path = NodePath("..")
+
+>>>>>>> parent of 426f854 (dynamic camera positions)
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
 player = NodePath("../player")
@@ -79,8 +88,11 @@ visible = false
 position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
 
+<<<<<<< HEAD
 [node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
 position = Vector2(289, 1250)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+=======
+>>>>>>> parent of 426f854 (dynamic camera positions)
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]

@@ -6,9 +6,7 @@ enum State {
 	CIRCLE,
 	DODGING,
 	ATTACK,
-	RECOVER,
-	DEAD
-	#toppled(
+	RECOVER
 }
 
 
@@ -22,8 +20,6 @@ enum State {
 @export var attack_range: float = 120.0
 @export var attack_speed: float = 0.8
 @export var reaction_time: float = 0.35
-
-var p 
 
 #Other
 var state: State = State.IDLE
@@ -49,13 +45,10 @@ signal boss_died(boss_position: Vector2)
 
 
 func die() -> void:
-	state=State.DEAD
 	boss_died.emit(global_position)
-	p=position
 
 	set_physics_process(false)
 	$CollisionShape2D.disabled = true
-	await get_tree().create_timer(2)
 
 	fade_out_and_free()
 
@@ -97,13 +90,6 @@ func _physics_process(delta: float) -> void:
 
 		State.RECOVER:
 			recover(delta)
-		
-		State.DEAD:
-			if position==p:
-				position+=Vector2.ONE*randf()*5
-				await get_tree().create_timer(0.3)
-			else:position=p
-			pass
 
 	sprite.global_rotation = 0
 
@@ -153,36 +139,34 @@ func perform_dodge(delta: float) -> void:
 
 
 func rush(delta: float) -> void:
-	if player:
-		look_at(player.position)
-		if position.distance_to(player.position) < attack_range:
-			state = State.CIRCLE
-		else:
-			state_timer = 0.0
-			sprite.modulate = Color(0.661, 0.445, 0.0, 1.0)
-			velocity += transform.x * move_speed / 60
-			velocity = velocity.limit_length(move_speed)
+	look_at(player.position)
+	if position.distance_to(player.position) < attack_range:
+		state = State.CIRCLE
+	else:
+		state_timer = 0.0
+		sprite.modulate = Color(0.661, 0.445, 0.0, 1.0)
+		velocity += transform.x * move_speed / 60
+		velocity = velocity.limit_length(move_speed)
 
 
 func circle(delta: float) -> void:
-	if player:
-		if position.distance_to(player.position) < attack_range:
-			turn_angle += 0.01
-		elif position.distance_to(player.position) > vieu_radius:
-			state = State.RUSH
-			return
-		else:
-			turn_angle -= 0.01
+	if position.distance_to(player.position) < attack_range:
+		turn_angle += 0.01
+	elif position.distance_to(player.position) > vieu_radius:
+		state = State.RUSH
+		return
+	else:
+		turn_angle -= 0.01
 
-		look_at(player.position)
-		rotate(turn_angle)
-		velocity += transform.y * move_speed / 20
-		velocity = velocity.limit_length(move_speed)
-		if state_timer > 3:
-			state_timer = 0.0
-			attack_dir = position.direction_to(player.position)
-			state = State.ATTACK
-			sprite.modulate = Color(1.0, 0.3, 0.3)
+	look_at(player.position)
+	rotate(turn_angle)
+	velocity += transform.y * move_speed / 20
+	velocity = velocity.limit_length(move_speed)
+	if state_timer > 3:
+		state_timer = 0.0
+		attack_dir = position.direction_to(player.position)
+		state = State.ATTACK
+		sprite.modulate = Color(1.0, 0.3, 0.3)
 
 
 func perform_attack() -> void:
@@ -190,7 +174,6 @@ func perform_attack() -> void:
 	velocity /= 1.08
 	if state_timer >= attack_speed:
 		velocity = attack_dir * move_speed * 3
-		
 
 		state = State.RECOVER
 		state_timer = 0.0
@@ -206,8 +189,6 @@ func recover(delta: float) -> void:
 
 func _on_damage_zone_body_entered(body: Node2D) -> void:
 	print(body.name)
-	if body == player :
-		if body.has_method("take_damage"):#and state==State.ATTACK:
+	if body == player:
+		if body.has_method("take_damage"):
 			body.take_damage(true)
-		#
-		else:take_damage()
