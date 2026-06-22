@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var fade_overlay = %FadeOverlay
 @onready var pause_overlay = %PauseOverlay
+@onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
 var circle
 
@@ -19,7 +20,12 @@ func _ready() -> void:
 	#print(circle)
 
 	#Geometry2D.clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon,circle)
-
+	polygon_2d.set_polygon(
+		(
+			Geometry2D
+			. clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon(), circle.get_polygon())[0]
+		)
+	)
 
 func _input(event) -> void:
 	if event.is_action_pressed("pause") and not pause_overlay.visible:
