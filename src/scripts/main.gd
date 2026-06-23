@@ -2,27 +2,24 @@ extends Node2D
 
 @onready var fade_overlay = %FadeOverlay
 @onready var pause_overlay = %PauseOverlay
-<<<<<<< HEAD
+
 @onready var camera=$Camera2D
 @onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
-
+enum cstate {follow,arena}
+var camstate=cstate.follow
 var camz1=Vector2.ONE
 var camz2=Vector2.ONE*0.5
 
 
-=======
-@onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
->>>>>>> parent of 426f854 (dynamic camera positions)
 var circle
 
 func _ready() -> void:
-<<<<<<< HEAD
+
 	$player.camera=camera
 	
-=======
->>>>>>> parent of 426f854 (dynamic camera positions)
+
 	fade_overlay.visible = true
 	$"StaticBody2D/arena gate".disabled = true
 	circle = generate_circle_polygon(400, 64, $Node2D.position)
@@ -32,6 +29,7 @@ func _ready() -> void:
 			. clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon(), circle.get_polygon())[0]
 		)
 	)
+
 	#$StaticBody2D.add_child(circle)
 	#print(circle)
 
@@ -42,7 +40,7 @@ func _ready() -> void:
 			. clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon(), circle.get_polygon())[0]
 		)
 	)
-<<<<<<< HEAD
+
 func _process(delta: float) -> void:
 	if $player and camstate==cstate.follow:
 		$Camera2D2.position=$player.position
@@ -50,8 +48,7 @@ func _process(delta: float) -> void:
 	elif camstate==cstate.arena:
 		$Camera2D2.position=$Node2D.position
 		$Camera2D2.zoom=camz2
-=======
->>>>>>> parent of 426f854 (dynamic camera positions)
+
 
 func _input(event) -> void:
 	if event.is_action_pressed("pause") and not pause_overlay.visible:
