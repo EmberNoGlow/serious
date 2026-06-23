@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://cywvqad6xj8ib"]
 
-[ext_resource type="Script" uid="uid://dkllcn6r0a7df" path="res://src/scripts/main.gd" id="1_5dlwx"]
 [ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_kkvs4"]
 [ext_resource type="Script" uid="uid://jwoctstcy3w2" path="res://src/scripts/arena_gate.gd" id="2_2lg1k"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
@@ -14,7 +13,6 @@
 size = Vector2(909, 603.5)
 
 [node name="Main" type="Node2D" unique_id=1099435278]
-script = ExtResource("1_5dlwx")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=195666668]
 
@@ -48,20 +46,14 @@ script = ExtResource("4_kokaf")
 
 <<<<<<< HEAD
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1386345763]
-position = Vector2(285, 1362)
-=======
 [node name="Camera2D2" type="Camera2D" parent="player" unique_id=1386345763]
->>>>>>> parent of 426f854 (dynamic camera positions)
-position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("3_dbro3")
 
-<<<<<<< HEAD
-=======
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="player/Camera2D2" unique_id=91757358]
 remote_path = NodePath("..")
 
->>>>>>> parent of 426f854 (dynamic camera positions)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=274268721]
 [node name="boss" parent="." unique_id=1622177219 node_paths=PackedStringArray("player") instance=ExtResource("2_rr2wm")]
 position = Vector2(750, 279)
 player = NodePath("../player")
@@ -88,11 +80,8 @@ visible = false
 position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
 
-<<<<<<< HEAD
 [node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
 position = Vector2(289, 1250)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-=======
->>>>>>> parent of 426f854 (dynamic camera positions)
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]
