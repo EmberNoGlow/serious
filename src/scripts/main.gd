@@ -4,7 +4,7 @@ extends Node2D
 @onready var pause_overlay = %PauseOverlay
 
 
-@onready var camera=$Camera2D
+@onready var camera=get_tree().current_scene.get_node("Camera2D")
 @onready var polygon_2d: Polygon2D = $StaticBody2D/Polygon2D
 
 enum cstate {follow,arena}
@@ -23,7 +23,8 @@ func _ready() -> void:
 	fade_overlay.visible = true
 	$"StaticBody2D/arena gate".disabled = true
 	circle = generate_circle_polygon(400, 64, $Node2D.position)
-	$StaticBody2D/CollisionPolygon2D.set_polygon((Geometry2D. clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon(), circle.get_polygon())[0]))
+	
+	$StaticBody2D/CollisionPolygon2D.set_polygon((Geometry2D.clip_polygons($StaticBody2D/CollisionPolygon2D.get_polygon(),circle.get_polygon())[0]))
 
 
 
@@ -41,11 +42,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if $player and camstate==cstate.follow:
-		$Camera2D2.position=$player.position
-		$Camera2D2.zoom=camz1
+		$Camera2D.position=$player.position
+		$Camera2D.zoom=camz1
 	elif camstate==cstate.arena:
-		$Camera2D2.position=$Node2D.position
-		$Camera2D2.zoom=camz2
+		$Camera2D.position=$Node2D.position
+		$Camera2D.zoom=camz2
 
 
 
@@ -67,5 +68,6 @@ func generate_circle_polygon(radius: float, num_sides: int, position: Vector2):
 		arr.append(vector + position)
 		vector = vector.rotated(angle_delta)
 	polygon.set_polygon(arr)
+	print(arr)
 
 	return polygon

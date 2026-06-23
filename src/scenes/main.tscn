@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cywvqad6xj8ib"]
 
 [ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_kkvs4"]
+[ext_resource type="Script" uid="uid://dkllcn6r0a7df" path="res://src/scripts/main.gd" id="1_kokaf"]
 [ext_resource type="Script" uid="uid://jwoctstcy3w2" path="res://src/scripts/arena_gate.gd" id="2_2lg1k"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
 [ext_resource type="Script" uid="uid://b8c1onttdmvyu" path="res://src/scripts/camera.gd" id="3_dbro3"]
@@ -12,7 +13,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o81g6"]
 size = Vector2(909, 603.5)
 
-[node name="fricked" type="Node2D" unique_id=1099435278]
+[node name="main" type="Node2D" unique_id=1099435278]
+script = ExtResource("1_kokaf")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=195666668]
 
@@ -83,5 +85,4 @@ shape = SubResource("RectangleShape2D_o81g6")
 [node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
 position = Vector2(289, 1250)
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]
