@@ -68,6 +68,13 @@ func generate_circle_polygon(radius: float, num_sides: int, position: Vector2):
 		arr.append(vector + position)
 		vector = vector.rotated(angle_delta)
 	polygon.set_polygon(arr)
-	print(arr)
+	#print(arr)
 
 	return polygon
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.name=='player':
+		
+		camstate=cstate.arena
+	pass # Replace with function body.
