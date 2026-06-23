@@ -11,7 +11,8 @@ enum cstate {follow,arena}
 var camstate=cstate.follow
 var camz1=Vector2.ONE
 var camz2=Vector2.ONE*0.5
-
+var target_camz:Vector2
+var target_camp:Vector2
 
 
 var circle
@@ -40,14 +41,16 @@ func _ready() -> void:
 	)
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if $player and camstate==cstate.follow:
-		$Camera2D.position=$player.position
-		$Camera2D.zoom=camz1
+		target_camp=$player.position
+		target_camz=camz1
 	elif camstate==cstate.arena:
-		$Camera2D.position=$Node2D.position
-		$Camera2D.zoom=camz2
-
+		target_camp= $Node2D.position
+		target_camz=camz2
+	
+	$Camera2D.position=lerp($Camera2D.position, target_camp, delta*5.0)
+	$Camera2D.zoom=lerp($Camera2D.zoom, target_camz, delta*2.0)
 
 
 func _input(event) -> void:
