@@ -1,12 +1,52 @@
 [gd_scene format=3 uid="uid://baiucji131ghk"]
 
 [ext_resource type="Script" uid="uid://byckau3nebu2t" path="res://src/scripts/tower.gd" id="1_jief1"]
+[ext_resource type="Texture2D" uid="uid://ct2pixs41p8fu" path="res://sprites/Tower_Barrier_Sheet.png" id="2_jief1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jief1"]
 size = Vector2(42, 65)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bai0d"]
+atlas = ExtResource("2_jief1")
+region = Rect2(0, 0, 914, 2318)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwn6r"]
+atlas = ExtResource("2_jief1")
+region = Rect2(914, 0, 914, 2318)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pye6m"]
+atlas = ExtResource("2_jief1")
+region = Rect2(1828, 0, 914, 2318)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bp5s"]
+atlas = ExtResource("2_jief1")
+region = Rect2(2742, 0, 914, 2318)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sry6k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bai0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwn6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pye6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bp5s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="StaticBody2D" type="StaticBody2D" unique_id=1002576833]
 script = ExtResource("1_jief1")
+active = null
+destroyed = null
+boost = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1170796884]
 position = Vector2(0, 0.5)
@@ -14,3 +54,10 @@ shape = SubResource("RectangleShape2D_jief1")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=2035146855]
 scale = Vector2(0.11, 0.11)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1448717502]
+position = Vector2(0, 1)
+scale = Vector2(0.07275711, 0.033649698)
+sprite_frames = SubResource("SpriteFrames_sry6k")
+autoplay = "default"
+frame_progress = 0.98311937

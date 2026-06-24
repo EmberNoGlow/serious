@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 UserSettings="*res://settings/user_settings.gd"
+Interactions="*uid://byhueibv8f1kt"
 
 [display]
 

@@ -1,9 +1,9 @@
 extends Actor
 @export var camera :Camera2D
 #@onready var zoom=camera.zoom
-@export var SPEED = 500.0
-@export var max_speed = 7000
-@export var min_speed = 500
+@export var SPEED = 200.0
+@export var max_speed = 3000
+#@export var min_speed = 500
 @export var dcharge=2
 
 @onready var charge_attack_timer = Timer.new()
@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	$Label.text= str(dcharge)
 	if velocity.length()>max_speed*delta:
-		velocity*=max_speed*delta/velocity.length()
+		velocity*=0.7*max_speed*delta/velocity.length()
 	#if velocity.length()<min_speed*delta:
 		#velocity*=min_speed*delta/velocity.length()
 	if Input.is_action_pressed("attack")and dcharge>0:
@@ -72,7 +72,7 @@ func _physics_process(delta: float) -> void:
 			#change_state(State.IDLE)
 	
 	if direction :#and state in [State.IDLE, State.MOVE]:
-		velocity += direction * SPEED*delta/150
+		velocity += direction * SPEED*delta/125
 		if velocity.length()>max_speed*delta:
 			print(velocity)
 			velocity*=max_speed*delta/velocity.length()
@@ -109,7 +109,7 @@ func _physics_process(delta: float) -> void:
 				#print(velocity.dot(vdash))
 				if velocity.dot(vdash)<-0.5:
 					#print("bounce")
-					velocity += 2.5*vdash
+					velocity += 1.5*vdash
 				else:velocity += vdash
 				
 				

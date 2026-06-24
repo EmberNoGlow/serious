@@ -17,7 +17,7 @@ enum State {
 @export var move_speed: float = 220.0
 @export var dodge_speed: float = 520.0
 @export var vieu_radius: float = 250.0
-
+var boost = 1
 @export var attack_range: float = 120.0
 @export var attack_speed: float = 0.8
 @export var reaction_time: float = 0.35
@@ -74,6 +74,9 @@ func fade_out_and_free() -> void:
 # Py_Process
 ##################
 func _physics_process(delta: float) -> void:
+	if Interactions.boosted==true:
+		boost=1.5
+	else:boost=1
 	state_timer += delta
 	theta+=0.5
 	#$Node2D/blade.rotation=sin(theta)
@@ -100,7 +103,7 @@ func _physics_process(delta: float) -> void:
 			perform_attack()
 
 		State.RECOVER:
-			recover(delta)
+			recover()
 		
 		State.STUN:
 			pass
@@ -134,7 +137,7 @@ func look_for_player(delta: float) -> void:
 	else:
 		#wrong place
 		#velocity = (player.position -position).normalized() * move_speed
-		velocity = Vector2(randf(), randf()).normalized() * move_speed / 10
+		velocity = Vector2(randf(), randf()).normalized() * move_speed * boost / 10
 		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 
@@ -162,20 +165,21 @@ func check_player_charge() -> void:
 func perform_dodge(delta: float) -> void:
 	# Short dodge duration
 	if state_timer > 0.25:
-		state = State.RECOVER
+		state = State.IDLE
 	# Slight drag so it doesn't feel robotic
-	velocity = (position.direction_to(player.position).orthogonal() * move_speed * 2) * dodge_dir
+	velocity = (position.direction_to(player.position).orthogonal() * move_speed*boost * 2)  * dodge_dir
 
 
 func rush(delta: float) -> void:
-	look_at(player.position)
+	if player:
+		look_at(player.position)
 	if position.distance_to(player.position) < attack_range:
 		state = State.CIRCLE
 	else:
 		state_timer = 0.0
 		sprite.modulate = Color(0.661, 0.445, 0.0, 1.0)
-		velocity += transform.x * move_speed / 60
-		velocity = velocity.limit_length(move_speed)
+		velocity += transform.x * move_speed *boost/ 60
+		velocity = velocity.limit_length(move_speed*boost)
 
 
 func circle(delta: float) -> void:
@@ -189,8 +193,8 @@ func circle(delta: float) -> void:
 
 	look_at(player.position)
 	rotate(turn_angle)
-	velocity += transform.y * move_speed / 20
-	velocity = velocity.limit_length(move_speed)
+	velocity += transform.y * move_speed*boost / 20
+	velocity = velocity.limit_length(move_speed*boost)
 	if state_timer > 3:
 		state_timer = 0.0
 		attack_dir = position.direction_to(player.position)
@@ -202,17 +206,17 @@ func perform_attack() -> void:
 	# One-shot hit logic
 	velocity /= 1.08
 	if state_timer >= attack_speed:
-		velocity = attack_dir * move_speed * 3
-
-		state = State.RECOVER
+		velocity = attack_dir * move_speed*boost * 3
 		state_timer = 0.0
+		recover()
+		
 
 
-func recover(delta: float) -> void:
+func recover() -> void:
 	velocity /= 1.05
 	sprite.modulate = Color(0.322, 0.001, 0.861, 1.0)
 	if state_timer > 1:
-		state = State.RUSH
+		state = State.IDLE
 		state_timer = 0.0
 
 
@@ -222,6 +226,6 @@ func _on_damage_zone_body_entered(body: Node2D) -> void:
 	if body == player and state!=State.STUN:
 		if body.has_method("take_damage"):
 			body.take_damage(true)
-	elif body.has_method("change_state"):
-
-		body.change_state(0,$".")
+	elif body.has_method("c_state"):
+		if body.collision.disabled==false and body.barier.visible==false and state==State.ATTACK:
+			body.c_state(0,$".")

@@ -4,10 +4,12 @@
 [ext_resource type="Script" uid="uid://dkllcn6r0a7df" path="res://src/scripts/main.gd" id="1_kokaf"]
 [ext_resource type="Script" uid="uid://jwoctstcy3w2" path="res://src/scripts/arena_gate.gd" id="2_2lg1k"]
 [ext_resource type="PackedScene" uid="uid://bmhq37e26k2ab" path="res://src/scenes/boss.tscn" id="2_rr2wm"]
-[ext_resource type="Script" uid="uid://c8s88hdnfu1c0" path="res://src/scripts/new_player.gd" id="4_kokaf"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="4_o81g6"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="5_o81g6"]
+[ext_resource type="Texture2D" uid="uid://w6hkmshm5hdj" path="res://sprites/BossTower_Active.webp" id="8_24j03"]
 [ext_resource type="PackedScene" uid="uid://baiucji131ghk" path="res://src/scenes/tower.tscn" id="9_kokaf"]
+[ext_resource type="Texture2D" uid="uid://6oiba1pbeq0i" path="res://sprites/BossTower_Destroyed.webp" id="9_p1ia5"]
+[ext_resource type="Texture2D" uid="uid://dcxcq2sv0w4pn" path="res://sprites/BossTower_boost.webp.png" id="10_kbdt0"]
 [ext_resource type="PackedScene" uid="uid://c11ksoxiw372v" path="res://scenes/node_2d.tscn" id="10_lp058"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o81g6"]
@@ -44,7 +46,6 @@ script = ExtResource("2_2lg1k")
 [node name="player" parent="." unique_id=603701563 instance=ExtResource("1_kkvs4")]
 position = Vector2(285, 1362)
 collision_mask = 1
-script = ExtResource("4_kokaf")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=274268721]
 position = Vector2(285, 1362)
@@ -75,15 +76,24 @@ shape = SubResource("RectangleShape2D_o81g6")
 
 [node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
 position = Vector2(556, 615)
+active = ExtResource("8_24j03")
+destroyed = ExtResource("9_p1ia5")
+boost = ExtResource("10_kbdt0")
 
 [node name="Node2D2" parent="." unique_id=1399985954 instance=ExtResource("10_lp058")]
 position = Vector2(461, 1327)
 
 [node name="root2" parent="." unique_id=498687141 instance=ExtResource("9_kokaf")]
 position = Vector2(1034, 618)
+active = ExtResource("8_24j03")
+destroyed = ExtResource("9_p1ia5")
+boost = ExtResource("10_kbdt0")
 
 [node name="root3" parent="." unique_id=831539925 instance=ExtResource("9_kokaf")]
 position = Vector2(1050, 306)
+active = ExtResource("8_24j03")
+destroyed = ExtResource("9_p1ia5")
+boost = ExtResource("10_kbdt0")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]

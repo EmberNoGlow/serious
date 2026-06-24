@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Actor
 
-var hp := 5
+var hp := 3
 
 func die():
 	print("DIIIIEEEEEE")

@@ -16,6 +16,7 @@ var camera_state: CameraState = CameraState.FOLLOW
 var target_camera_position: Vector2 = Vector2.ZERO
 var target_camera_zoom: Vector2 = FOLLOW_ZOOM
 
+
 func _ready() -> void:
 	fade_overlay.visible = true
 	arena_gate.disabled = true
