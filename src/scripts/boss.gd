@@ -6,7 +6,8 @@ enum State {
 	CIRCLE,
 	DODGING,
 	ATTACK,
-	RECOVER
+	RECOVER,
+	STUN
 }
 
 
@@ -29,6 +30,10 @@ var attack_dir: Vector2 = Vector2.ZERO
 var dodge_dir = 1.0
 
 var turn_angle := 0.0
+var theta=0
+
+
+
 
 @onready var sprite: Node2D = $sprites
 
@@ -38,7 +43,9 @@ var turn_angle := 0.0
 
 
 func _ready() -> void:
+	theta=wrap(theta,0,2*PI)
 	state = State.IDLE
+
 
 
 signal boss_died(boss_position: Vector2)
@@ -68,6 +75,10 @@ func fade_out_and_free() -> void:
 ##################
 func _physics_process(delta: float) -> void:
 	state_timer += delta
+	theta+=0.5
+	#$Node2D/blade.rotation=sin(theta)
+	if state!=State.STUN:
+		$damageZone/CollisionShape2D.disabled=false
 
 	match state:
 		State.IDLE:
@@ -90,11 +101,29 @@ func _physics_process(delta: float) -> void:
 
 		State.RECOVER:
 			recover(delta)
+		
+		State.STUN:
+			pass
 
-	sprite.global_rotation = 0
-
+	if state!=State.STUN:
+		sprite.global_rotation = 0
+	velocity=velocity.lerp(Vector2.ZERO,0.02)
 	move_and_slide()
 
+func stun():
+	$damageZone/CollisionShape2D.disabled=true
+	state=State.STUN
+	
+	sprite.global_rotation=PI/2
+func take_damage(double := false):
+	print(str(hp)+" "+name)
+	if state==State.STUN:
+		hp -= 1
+	
+	hp = max(hp, 0)
+	if hp == 0:
+		die()
+	else:state=State.RUSH
 
 func look_for_player(delta: float) -> void:
 	if not player:
@@ -188,7 +217,11 @@ func recover(delta: float) -> void:
 
 
 func _on_damage_zone_body_entered(body: Node2D) -> void:
-	print(body.name)
-	if body == player:
+	print(body.get_class())
+	#if state==State.ATTACK:
+	if body == player and state!=State.STUN:
 		if body.has_method("take_damage"):
 			body.take_damage(true)
+	elif body.has_method("change_state"):
+
+		body.change_state(0,$".")

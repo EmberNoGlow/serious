@@ -74,10 +74,16 @@ position = Vector2(813, 408.25)
 shape = SubResource("RectangleShape2D_o81g6")
 
 [node name="root" parent="." unique_id=1383305366 instance=ExtResource("9_kokaf")]
-position = Vector2(289, 1250)
+position = Vector2(556, 615)
 
 [node name="Node2D2" parent="." unique_id=1399985954 instance=ExtResource("10_lp058")]
 position = Vector2(461, 1327)
+
+[node name="root2" parent="." unique_id=498687141 instance=ExtResource("9_kokaf")]
+position = Vector2(1034, 618)
+
+[node name="root3" parent="." unique_id=831539925 instance=ExtResource("9_kokaf")]
+position = Vector2(1050, 306)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D" to="StaticBody2D/arena gate" method="_on_area_2d_body_entered"]

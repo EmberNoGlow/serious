@@ -23,7 +23,7 @@ enum State {
 	DASH
 }
 var state: State = State.IDLE
-func change_state(new_state: State) -> void:
+func change_state(new_state: State,body:Node2D) -> void:
 	if Engine.time_scale!=1:
 		Engine.time_scale=1
 	state = new_state
@@ -66,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	
 	if state in [State.IDLE, State.MOVE]:
 		if direction != Vector2.ZERO:
-			change_state(State.MOVE)
+			change_state(State.MOVE,$".")
 		else:
 			pass
 			#change_state(State.IDLE)
@@ -87,7 +87,7 @@ func _physics_process(delta: float) -> void:
 	#shadow.scale = shadow.scale.lerp(target, 0.2)
 	
 	if Input.is_action_just_pressed("attack"):
-		change_state(State.CHARGE)
+		change_state(State.CHARGE,$".")
 		charge_attack_timer.start()
 		
 	if Input.is_action_just_released("attack")&& dcharge>0:
@@ -113,12 +113,14 @@ func _physics_process(delta: float) -> void:
 				else:velocity += vdash
 				
 				
-				change_state(State.DASH)
+				change_state(State.DASH,$".")
 				
 	#print(velocity.length())
 	var collision = move_and_collide(velocity )
 
 	if collision:
+		if collision.get_collider().has_method("take_damage"):
+			collision.get_collider().take_damage()
 		dcharge=2
 		var normal = collision.get_normal()
 		var impact = abs(velocity.normalized().dot(normal))
@@ -175,7 +177,24 @@ func spawn_afterimages() -> void:
 				#if is_instance_valid(ghost):
 					#ghost.queue_free()
 		#)
+func die() -> void:
 	
+
+	set_physics_process(false)
+	$CollisionShape2D.disabled = true
+
+	fade_out_and_free()
+
+
+func fade_out_and_free() -> void:
+	await get_tree().create_timer(1.2).timeout
+
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 0.0, 1.5)
+
+	await tween.finished
+	queue_free()
+
 	
 	
 	

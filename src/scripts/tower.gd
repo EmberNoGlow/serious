@@ -1,18 +1,23 @@
-extends Node2D
+extends tower
+
 
 @export var active : CompressedTexture2D = preload("res://sprites/BossTower_Active.webp")
 @export var destroyed : CompressedTexture2D = preload("res://sprites/BossTower_Destroyed.webp")
 
 @onready var sprite: Sprite2D = $Sprite
 
-func change_state(to: int): ## 0 - destroy, 1 - active
+func change_state(to: int,body:Node2D): ## 0 - destroy, 1 - active
+	if to ==0 and body !=$".":
+		print("tower stun")
+		body.stun()
 	match to:
 		0:
 			sprite.texture = destroyed
+			$CollisionShape2D.disabled=true
 		1:
 			sprite.texture = active
 		_:
 			push_error("tower.gd: Invalid State")
 
 func _ready() -> void:
-	change_state(1)
+	change_state(1,$".")
