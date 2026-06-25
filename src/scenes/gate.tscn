@@ -1,3 +1,11 @@
 [gd_scene format=3 uid="uid://5hd6lp0qluy1"]
 
-[node name="Gate" type="Node2D" unique_id=1183919933]
+[ext_resource type="Script" uid="uid://dnxbkv1nrqcnm" path="res://src/scripts/gate.gd" id="1_djice"]
+
+[node name="Gate" type="StaticBody2D" unique_id=912158336]
+script = ExtResource("1_djice")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1660125556]
+position = Vector2(-6.76454, 0.24922752)
+scale = Vector2(4.37412, 1.6666665)
+polygon = PackedVector2Array(-7.4564056, -6.149536, 10.543594, -6.149536, 10.543594, 5.850464, -7.4564056, 5.850464)

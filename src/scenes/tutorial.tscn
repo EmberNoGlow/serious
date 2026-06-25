@@ -1,8 +1,13 @@
 [gd_scene format=3 uid="uid://bj3uphfx1w5uc"]
 
+[ext_resource type="Script" uid="uid://d1ksupt0eupdx" path="res://src/scripts/tutorial.gd" id="1_l4gex"]
 [ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_r8nuq"]
+[ext_resource type="PackedScene" uid="uid://5hd6lp0qluy1" path="res://src/scenes/gate.tscn" id="2_io05x"]
+[ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="4_0hv7v"]
+[ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="5_2edpq"]
 
 [node name="Tutorial" type="Node2D" unique_id=1155158507]
+script = ExtResource("1_l4gex")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2059148750]
 
@@ -11,22 +16,22 @@ build_mode = 1
 polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=967977874]
-position = Vector2(0, -1626)
+position = Vector2(-1, -1592.0001)
 scale = Vector2(1, 3.095734)
 build_mode = 1
 polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=338989786]
-position = Vector2(-1, -598)
+position = Vector2(-1, -576)
 scale = Vector2(1, 1.7594697)
 build_mode = 1
 polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
 
 [node name="wasd" type="Label" parent="." unique_id=222922924]
-offset_left = 213.0
-offset_top = 75.0
-offset_right = 340.0
-offset_bottom = 129.0
+offset_left = 251.0
+offset_top = 111.0
+offset_right = 378.0
+offset_bottom = 165.0
 text = "wasd"
 
 [node name="dash" type="Label" parent="." unique_id=94295004]
@@ -58,19 +63,38 @@ offset_bottom = -266.0
 text = "piston"
 
 [node name="combat2" type="Label" parent="." unique_id=2100103321]
-offset_left = 416.0
-offset_top = -1561.0
-offset_right = 543.0
-offset_bottom = -1507.0
+offset_left = 424.0
+offset_top = -1549.0
+offset_right = 551.0
+offset_bottom = -1495.0
 text = "ranged enemy"
 
 [node name="combat3" type="Label" parent="." unique_id=174827460]
-offset_left = 18.0
-offset_top = -1554.0
-offset_right = 145.0
-offset_bottom = -1500.0
+offset_left = 22.0
+offset_top = -1540.0
+offset_right = 149.0
+offset_bottom = -1486.0
 text = "ranged enemy
 "
 
 [node name="CharacterBody2D" parent="." unique_id=603701563 instance=ExtResource("1_r8nuq")]
 position = Vector2(276, 295)
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=191387907]
+
+[node name="Gate" parent="." unique_id=912158336 instance=ExtResource("2_io05x")]
+position = Vector2(274, -4)
+
+[node name="Gate2" parent="." unique_id=1217191819 instance=ExtResource("2_io05x")]
+position = Vector2(287, -585)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1584661443]
+
+[node name="FadeOverlay" parent="UI" unique_id=584251134 instance=ExtResource("4_0hv7v")]
+unique_name_in_owner = true
+visible = false
+
+[node name="PauseOverlay" parent="UI" unique_id=2027624245 instance=ExtResource("5_2edpq")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
