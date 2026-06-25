@@ -11,6 +11,7 @@ extends Control
 @onready var instance:Node2D = node.instantiate()
 
 func _ready():
+	print(next_scene)
 	instance.modulate.a = 0.0
 	control.add_child(instance)
 	var tween = create_tween()

@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bj3uphfx1w5uc"]
+
+[ext_resource type="PackedScene" uid="uid://bqmajw8xq1ku1" path="res://src/scenes/player.tscn" id="1_r8nuq"]
+
+[node name="Tutorial" type="Node2D" unique_id=1155158507]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2059148750]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=593269380]
+build_mode = 1
+polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=967977874]
+position = Vector2(0, -1626)
+scale = Vector2(1, 3.095734)
+build_mode = 1
+polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=338989786]
+position = Vector2(-1, -598)
+scale = Vector2(1, 1.7594697)
+build_mode = 1
+polygon = PackedVector2Array(1, -5, 1, 325, 579, 324, 576, -3)
+
+[node name="wasd" type="Label" parent="." unique_id=222922924]
+offset_left = 213.0
+offset_top = 75.0
+offset_right = 340.0
+offset_bottom = 129.0
+text = "wasd"
+
+[node name="dash" type="Label" parent="." unique_id=94295004]
+offset_left = 242.0
+offset_top = -205.0
+offset_right = 369.0
+offset_bottom = -151.0
+text = "dash"
+
+[node name="combat" type="Label" parent="." unique_id=451512733]
+offset_left = 209.0
+offset_top = -961.0
+offset_right = 336.0
+offset_bottom = -907.0
+text = "combat"
+
+[node name="piston" type="Label" parent="." unique_id=355031227]
+offset_left = 4.0
+offset_top = -388.0
+offset_right = 184.0
+offset_bottom = -262.0
+text = "piston"
+
+[node name="piston2" type="Label" parent="." unique_id=1690251341]
+offset_left = 395.0
+offset_top = -392.0
+offset_right = 575.0
+offset_bottom = -266.0
+text = "piston"
+
+[node name="combat2" type="Label" parent="." unique_id=2100103321]
+offset_left = 416.0
+offset_top = -1561.0
+offset_right = 543.0
+offset_bottom = -1507.0
+text = "ranged enemy"
+
+[node name="combat3" type="Label" parent="." unique_id=174827460]
+offset_left = 18.0
+offset_top = -1554.0
+offset_right = 145.0
+offset_bottom = -1500.0
+text = "ranged enemy
+"
+
+[node name="CharacterBody2D" parent="." unique_id=603701563 instance=ExtResource("1_r8nuq")]
+position = Vector2(276, 295)
